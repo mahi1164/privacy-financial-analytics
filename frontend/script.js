@@ -4,11 +4,24 @@
 
 const BACKEND_URL = 'http://127.0.0.1:5000';
 
+function showStatus(message, type = "info") {
+    const box = document.getElementById("status-box");
+    
+    box.className = `${type} p-4 mb-4 rounded-xl text-sm font-medium`;
+    box.textContent = message;
+    box.classList.remove("hidden");
+
+    // auto hide after 3 sec
+    setTimeout(() => {
+        box.classList.add("hidden");
+    }, 3000);
+}
+
 function testBackendConnection() {
     fetch(`${BACKEND_URL}/test`)
         .then(res => res.json())
         .then(data => {
-            alert("✅ Backend is healthy!\n" + JSON.stringify(data, null, 2));
+            showStatus("✅ Backend is connected", "success");
         })
         .catch(() => {
             alert("⚠️ Could not reach backend.\nMake sure backend/app.py is running on port 5000");
@@ -27,16 +40,17 @@ async function loadTransactions() {
 
     } catch (err) {
         console.error(err);
-        alert("❌ Could not load transactions.");
+        showStatus("❌ Failed to load transactions", "error");
     }
 }
 
 async function runAnalysis() {
     try {
+        showStatus("⏳ Running analysis...", "info");
         const res = await fetch(`${BACKEND_URL}/api/analyze`, { method: 'POST' });
         if (!res.ok) throw new Error('Analysis failed');
         const result = await res.json();
-        alert(`🚀 Clustering complete!\n${JSON.stringify(result, null, 2)}`);
+        showStatus("🚀 Clustering completed successfully", "success");
         try {
             loadTransactions();
         } catch (e) {
@@ -44,7 +58,7 @@ async function runAnalysis() {
         }
     } catch (err) {
         console.error(err);
-        alert("❌ Analysis failed.\nCheck backend/routes.py and model.py");
+        showStatus("❌ Analysis failed", "error");
     }
 }
 

@@ -41,7 +41,7 @@ def get_transactions():
         conn = sqlite3.connect(db_path)
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM transactions ORDER BY id DESC LIMIT 50")
+        cursor.execute("SELECT * FROM transactions ORDER BY id DESC")
         rows = cursor.fetchall()
         conn.close()
 

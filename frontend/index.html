@@ -3,20 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PrivacyGuard Finance • Secure Analytics</title>
+    <title>PrivacyGuard Finance - Secure Analytics</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css"> <!-- Will be used in Step 8 -->
+    <link rel="stylesheet" href="style.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
         body { font-family: 'Inter', system_ui, sans-serif; }
     </style>
 </head>
 <body class="bg-gray-950 text-gray-100 min-h-screen">
-    <!-- HEADER -->
     <header class="border-b border-gray-800 bg-gray-900">
         <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-9 h-9 bg-emerald-500 rounded-2xl flex items-center justify-center text-white font-bold text-2xl">🔒</div>
+                <div class="w-9 h-9 bg-emerald-500 rounded-2xl flex items-center justify-center text-white font-bold text-lg">PG</div>
                 <h1 class="text-2xl font-semibold">PrivacyGuard Finance</h1>
             </div>
             <div class="flex items-center gap-6 text-sm">
@@ -24,7 +23,7 @@
                     <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
                     Backend Connected
                 </span>
-                <button onclick="testBackendConnection()" 
+                <button onclick="testBackendConnection()"
                         class="px-6 py-2 bg-white text-gray-950 hover:bg-gray-100 rounded-3xl font-medium transition">
                     Test Connection
                 </button>
@@ -33,83 +32,75 @@
     </header>
 
     <div class="max-w-7xl mx-auto px-6 py-10">
-        <!-- HERO -->
         <div class="text-center mb-12">
             <h2 class="text-5xl font-semibold mb-3">Privacy-Preserving<br>Financial Analytics</h2>
-            <p class="text-xl text-gray-400 max-w-lg mx-auto">
-                Analyze transactions with <span class="text-emerald-400 font-medium">differential privacy</span> • 
-                No raw data ever exposed
+            <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+                Analyze multi-user financial behavior with privacy-preserved transaction data and user-level clustering.
             </p>
         </div>
 
-        <!-- CONTROLS -->
-        <div class="flex gap-4 justify-center mb-10">
-            <button onclick="loadTransactions()" 
-                    class="px-8 py-4 bg-emerald-500 hover:bg-emerald-600 text-white rounded-3xl font-semibold flex items-center gap-3 transition">
-                📥 Load Transactions from Database
+        <div class="flex gap-4 justify-center mb-10 flex-wrap">
+            <button onclick="loadTransactions()"
+                    class="px-8 py-4 bg-emerald-500 hover:bg-emerald-600 text-white rounded-3xl font-semibold transition">
+                Load Transactions
             </button>
-            
-            <button onclick="runAnalysis()" 
-                    class="px-8 py-4 bg-white text-gray-950 hover:bg-gray-100 rounded-3xl font-semibold flex items-center gap-3 transition">
-                📊 Run Clustering Analysis
+
+            <button onclick="runAnalysis()"
+                    class="px-8 py-4 bg-white text-gray-950 hover:bg-gray-100 rounded-3xl font-semibold transition">
+                Run User Clustering
             </button>
-            
-            <button onclick="clearResults()" 
+
+            <button onclick="clearResults()"
                     class="px-8 py-4 border border-gray-700 hover:bg-gray-900 rounded-3xl font-semibold transition">
                 Clear Results
             </button>
         </div>
+
         <div id="status-box" class="hidden p-4 mb-4 rounded-xl text-sm font-medium"></div>
 
-        <!-- DASHBOARD STATS -->
         <div id="stats" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <!-- Populated by JS -->
         </div>
 
-        <!-- TRANSACTIONS TABLE -->
         <div class="bg-gray-900 rounded-3xl overflow-hidden border border-gray-800">
             <div class="px-8 py-5 border-b border-gray-800 flex justify-between items-center">
                 <h3 class="font-semibold text-lg">Privacy-Preserved Transactions</h3>
                 <span id="record-count" class="text-sm text-gray-400">0 records loaded</span>
             </div>
-            
+
             <div class="overflow-x-auto">
                 <table id="transactions-table" class="w-full text-sm">
                     <thead>
                         <tr class="bg-gray-950 text-gray-400 text-left">
                             <th class="px-8 py-4">Anonymous ID</th>
-                            <th class="px-8 py-4">Noisy Amount (₹)</th>
+                            <th class="px-8 py-4">Noisy Amount (INR)</th>
                             <th class="px-8 py-4">Category</th>
-                            <th class="px-8 py-4">Cluster</th>
-                            <th class="px-8 py-4 text-right">Positive?</th>
+                            <th class="px-8 py-4">Behavior Cluster</th>
+                            <th class="px-8 py-4 text-right">Fraud Flag</th>
                         </tr>
                     </thead>
                     <tbody id="table-body" class="divide-y divide-gray-800 text-gray-300">
-                        <!-- Populated by JS -->
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- PRIVACY INFO -->
         <div class="mt-10 bg-gray-900/50 border border-gray-700 rounded-3xl p-6 text-sm flex items-start gap-4">
-            <div class="text-3xl">🛡️</div>
+            <div class="text-3xl">DP</div>
             <div>
                 <strong class="block mb-1">How Privacy is Protected</strong>
                 <ul class="list-disc list-inside text-gray-400 space-y-1">
-                    <li>Transaction IDs are fully anonymized</li>
-                    <li>Laplace noise added to amounts (ε = 0.5)</li>
-                    <li>Only noisy data is stored and analyzed</li>
-                    <li>Raw sensitive data never leaves the system</li>
+                    <li>Names and full account numbers are removed before storage</li>
+                    <li>Stable anonymous IDs preserve user behavior without exposing identity</li>
+                    <li>Small amount noise is added before clustering</li>
+                    <li>Only privacy-preserved records are stored in SQLite and shown in the UI</li>
                 </ul>
             </div>
         </div>
     </div>
 
-    <!-- FOOTER -->
     <footer class="border-t border-gray-800 py-8 text-center text-gray-500 text-sm">
-        Step 7 Complete • Backend: Flask + SQLite • ML: Scikit-learn<br>
-        <span class="text-emerald-400">Waiting for style.css and script.js...</span>
+        Privacy pipeline ready - Backend: Flask + SQLite - ML: Scikit-learn<br>
+        <span class="text-emerald-400">User-level behavior clustering enabled.</span>
     </footer>
 
     <script src="script.js"></script>
